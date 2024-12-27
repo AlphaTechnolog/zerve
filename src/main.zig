@@ -20,6 +20,16 @@ const Address = net.Address;
 const Allocator = mem.Allocator;
 
 const Request = struct {
+    // internal request data such as low level structures.
+    allocator: Allocator,
+    connection: Server.Connection,
+
+    // incoming request parsed data.
+    url: ?[]const u8 = null,
+    method: ?Method = null,
+    headers: ?StringHashMap([]const u8) = null,
+    body: ?[]const u8 = null,
+
     pub const Method = enum {
         GET,
         POST,
@@ -48,16 +58,6 @@ const Request = struct {
             return null;
         }
     };
-
-    // internal request data such as low level structures.
-    allocator: Allocator,
-    connection: Server.Connection,
-
-    // incoming request parsed data.
-    url: ?[]const u8 = null,
-    method: ?Method = null,
-    headers: ?StringHashMap([]const u8) = null,
-    body: ?[]const u8 = null,
 
     pub fn init(allocator: Allocator, connection: Server.Connection) Request {
         return Request{
