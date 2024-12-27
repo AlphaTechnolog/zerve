@@ -353,7 +353,7 @@ const FileServer = struct {
             url,
         });
 
-        switch (RequestResource.fromUrl(url)) {
+        switch (resource) {
             .dir => return try self.serveFolder(url),
             .file => return try self.serveFile(url),
         }
